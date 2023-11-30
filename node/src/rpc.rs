@@ -7,7 +7,7 @@
 
 use std::sync::Arc;
 
-use coretime_parachain_runtime::{opaque::Block, AccountId, Balance, Nonce};
+use coretime_parachain_runtime::{Block, AccountId, Balance, Nonce};
 
 use sc_client_api::AuxStore;
 pub use sc_rpc::DenyUnsafe;
