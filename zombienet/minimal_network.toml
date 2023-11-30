@@ -1,0 +1,50 @@
+[settings]
+timeout = 1000
+
+[relaychain]
+chain = "rococo-local"
+default_command = "./bin/polkadot"
+
+  [[relaychain.nodes]]
+  name = "alice"
+  validator = true
+  ws_port = 9900
+  extra_args = [ "-lparachain=debug" ]
+
+  [[relaychain.nodes]]
+  name = "bob"
+  validator = true
+  extra_args = [ "-lparachain=debug" ]
+
+  [[relaychain.nodes]]
+  name = "charlie"
+  validator = true
+  extra_args = [ "-lparachain=debug" ]
+
+  [[relaychain.nodes]]
+  name = "dave"
+  validator = true
+  extra_args = [ "-lparachain=debug" ]
+
+[[parachains]]
+id = 1005
+add_to_genesis = true
+cumulus_based = true
+chain = "coretime-rococo-local"
+
+  [[parachains.collators]]
+  name = "coretime-collator01"
+  command = "./bin/polkadot-parachain"
+  ws_port = 9910
+  args = ["--log=xcm=trace"]
+
+  [[parachains.collators]]
+  name = "coretime-collator02"
+  command = "./bin/polkadot-parachain"
+  ws_port = 9911
+  args = ["--log=xcm=trace"]
+
+[types.Header]
+number = "u64"
+parent_hash = "Hash"
+post_state = "Hash"

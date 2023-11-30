@@ -1,22 +1,36 @@
-# Substrate Cumulus Parachain Template
+# Simulated Coretime Environment 
 
-A new [Cumulus](https://github.com/paritytech/cumulus/)-based Substrate node, ready for hacking ☁️..
+The purpose of this directory is to consolidate all the necessary components for testing RegionX functionality in one place. This repository offers zombienet scripts, simplifying the process of spinning up the required chains for testing.
 
-This project is originally a fork of the
-[Substrate Node Template](https://github.com/substrate-developer-hub/substrate-node-template)
-modified to include dependencies required for registering this node as a **parathread** or
-**parachain** to a **relay chain**.
+### Topology
 
-The stand-alone version of this template is hosted on the
-[Substrate Devhub Parachain Template](https://github.com/substrate-developer-hub/substrate-parachain-template/)
-for each release of Polkadot. It is generated directly to the upstream
-[Parachain Template in Cumulus](https://github.com/paritytech/cumulus/tree/master/parachain-template)
-at each release branch using the
-[Substrate Template Generator](https://github.com/paritytech/substrate-template-generator/).
+The local environment consists of three chains:
+- Rococo relay chain
+- Coretime parachain
+- Swanky parachain (NOTE: This can be replaced by any parachain that supports WASM contracts)
 
-👉 Learn more about parachains [here](https://wiki.polkadot.network/docs/learn-parachains), and
-parathreads [here](https://wiki.polkadot.network/docs/learn-parathreads).
+<p align="center">
+ <img src="./docs/topology.png" />
+</p>
 
+### Getting started
 
-🧙 Learn about how to use this template and run your own parachain testnet for it in the
-[Devhub Cumulus Tutorial](https://docs.substrate.io/tutorials/v3/cumulus/start-relay/).
+To run the local environment, we will first need to get all the necessary binaries. 
+
+If we only want to test functionality that is not related to any of the contracts, we can simply run the minimal_network.toml zombienet script:
+
+```
+# This will only run the Rococo relay chain and the Coretime chain
+./scripts/minimal_init.sh
+
+./zombienet-linux -p native spawn ./zombienet/minimal_network.toml
+```
+
+In case we want to run the full local network, which will allow us to test the contracts as well, the following commands need to be run instead:
+
+```
+# This will only run the Rococo relay chain and the Coretime chain
+./scripts/full_init.sh
+
+./zombienet-linux -p native spawn ./zombienet/full_network.toml
+```

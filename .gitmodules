@@ -1,0 +1,11 @@
+[submodule "polkadot-parachain"]
+	path = polkadot-parachain
+	url = https://github.com/paritytech/polkadot-sdk.git
+	branch = joe-coretime-chain
+[submodule "swanky-node"]
+	path = swanky-node
+	url = https://github.com/inkdevhub/swanky-node
+[submodule "polkadot-sdk"]
+	path = polkadot-sdk
+	url = https://github.com/paritytech/polkadot-sdk.git
+	branch = joe-coretime-chain
