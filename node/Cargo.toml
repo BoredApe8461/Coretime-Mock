@@ -18,7 +18,7 @@ serde = { version = "1.0.193", features = ["derive"] }
 futures = "0.3.29"
 
 # Local
-parachain-template-runtime = { path = "../runtime" }
+coretime-parachain-runtime = { path = "../runtime" }
 
 # Substrate
 frame-benchmarking = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0" }
@@ -76,10 +76,10 @@ substrate-build-script-utils = { git = "https://github.com/paritytech/polkadot-s
 [features]
 default = []
 runtime-benchmarks = [
-	"parachain-template-runtime/runtime-benchmarks",
+	"coretime-parachain-runtime/runtime-benchmarks",
 	"polkadot-cli/runtime-benchmarks",
 ]
 try-runtime = [
 	"try-runtime-cli/try-runtime",
-	"parachain-template-runtime/try-runtime"
+	"coretime-parachain-runtime/try-runtime"
 ]
