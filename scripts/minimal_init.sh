@@ -18,5 +18,7 @@ cd ../../
 
 cp ./target/release/polkadot-parachain ../bin/
 cp ./target/release/polkadot ../bin/
+cp ./target/release/polkadot-execute-worker ../bin/
+cp ./target/release/polkadot-prepare-worker ../bin/
 
 cd ..
