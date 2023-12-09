@@ -9,3 +9,6 @@
 	path = polkadot-sdk
 	url = https://github.com/paritytech/polkadot-sdk.git
 	branch = joe-coretime-chain
+[submodule "Astar"]
+	path = Astar
+	url = https://github.com/RegionX-Labs/Astar.git
