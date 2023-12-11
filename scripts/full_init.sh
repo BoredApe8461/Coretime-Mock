@@ -21,8 +21,8 @@ cp ./target/release/polkadot ../bin/
 cp ./target/release/polkadot-execute-worker ../bin/
 cp ./target/release/polkadot-prepare-worker ../bin/
 
-cd ../swanky/
+cd ../Astar/
 cargo build --release
-cp ./target/release/swanky-node ../bin/
+cp ./target/release/astar-collator ../bin/
 
 cd ..
