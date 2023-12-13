@@ -51,14 +51,14 @@ cumulus_based = true
 chain = "dev"
 
   [[parachains.collators]]
-  name = "swanky-collator01"
-  command = "./bin/swanky-node"
+  name = "astar-collator01"
+  command = "./bin/astar-node"
   ws_port = 9920
   args = ["--log=xcm=trace"]
 
   [[parachains.collators]]
-  name = "swanky-collator02"
-  command = "./bin/swanky-node"
+  name = "astar-collator02"
+  command = "./bin/astar-node"
   ws_port = 9921
   args = ["--log=xcm=trace"]
 
