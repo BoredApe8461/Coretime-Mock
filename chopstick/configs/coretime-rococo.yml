@@ -1,0 +1,21 @@
+endpoint: wss://rococo-coretime-rpc.polkadot.io/
+mock-signature-host: true
+db: ./db.sqlite
+
+import-storage:
+  System:
+    Account:
+      - - - 5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY
+        - providers: 1
+          data:
+            free: 1000000000000000
+  Broker:
+    Configuration:
+      advance_notice: 20
+      interlude_length: 10
+      leadin_length: 10
+      ideal_bulk_proportion: 0
+      limit_cores_offered: 50
+      region_length: 30
+      renewal_bump: 10
+      contribution_timeout: 5

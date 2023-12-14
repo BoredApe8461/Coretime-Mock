@@ -1,0 +1,17 @@
+{
+  "name": "chopstick",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "init": "npx ts-node src/init.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ts-node": "^10.9.2",
+    "@polkadot/api": "^10.11.1",
+    "@acala-network/chopsticks": "0.9.4"
+  }
+}

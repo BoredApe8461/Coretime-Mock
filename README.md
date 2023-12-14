@@ -14,7 +14,29 @@ The local environment consists of three chains:
  <img src="./docs/topology.png" />
 </p>
 
-### Getting started
+### Getting started with Chopsticks
+
+The Coretime chain is already deployed on Rococo (🥳) so that allows us to use Chopsticks for parts of the local testing.
+
+The steps to run a Coretime chain locally and setup the mock environment:
+
+```
+cd chopstick
+
+# This will run a parallel copy of the Coretime chain
+npx @acala-network/chopsticks@latest -c ./configs/coretime-rococo.yml
+
+# In a new terminal:
+
+cd chopsticks
+
+npm i
+
+# This will add some mock data to the Coretime chain
+npm run init
+```
+
+### Getting started with Zombienet (WIP)
 
 To run the local environment, we will first need to get all the necessary binaries.
 
