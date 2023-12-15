@@ -36,7 +36,7 @@ npm i
 npm run init
 ```
 
-### Getting started with Zombienet (WIP)
+### Getting started with Zombienet
 
 To run the local environment, we will first need to get all the necessary binaries.
 

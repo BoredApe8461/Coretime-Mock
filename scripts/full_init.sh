@@ -9,7 +9,7 @@ fi
 cd polkadot-sdk/
 
 # Build the polkadot relay chain binary. Needed to run rococo.
-cargo build --release
+cargo build --locked --profile testnet --features fast-runtime --bin polkadot --bin polkadot-prepare-worker --bin polkadot-execute-worker
 
 # Build the polkadot-parachain binary. Needed to run the Coretime chain.
 cd cumulus/polkadot-parachain
