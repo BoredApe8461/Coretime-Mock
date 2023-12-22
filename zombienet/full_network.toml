@@ -66,15 +66,3 @@ chain = "shibuya-dev"
 number = "u64"
 parent_hash = "Hash"
 post_state = "Hash"
-
-[[hrmp_channels]]
-sender = 1005
-recipient = 2000
-max_capacity = 8
-max_message_size = 512
-
-[[hrmp_channels]]
-sender = 2000
-recipient = 1005
-max_capacity = 8
-max_message_size = 512

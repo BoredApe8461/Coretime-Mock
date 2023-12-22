@@ -10,7 +10,7 @@ export const HALF_FULL_MASK = "0xFFFFFFFFFF0000000000"; // hex encoded 80 bit bi
 
 export const CONFIG = {
   advance_notice: 20,
-  interlude_length: 10,
+  interlude_length: 0,
   leadin_length: 10,
   ideal_bulk_proportion: 0,
   limit_cores_offered: 50,

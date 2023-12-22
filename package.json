@@ -1,0 +1,22 @@
+{
+  "name": "coretime-mock",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "chopsticks": "npx @acala-network/chopsticks@latest -c ./configs/coretime-rococo.yml",
+    "zombienet": "",
+    "chopsticks-init": "npx ts-node src/chopsticks.init.ts",
+    "zombienet-init": "npx ts-node src/zombienet.init.ts",
+    "zombienet-init:full": "npx ts-node src/zombienet.init.ts --fullNetwork"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@acala-network/chopsticks": "0.9.4",
+    "@polkadot/api": "^10.11.1",
+    "@polkadot/keyring": "^12.6.2",
+    "ts-node": "^10.9.2"
+  }
+}
