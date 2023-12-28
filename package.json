@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "chopsticks": "npx @acala-network/chopsticks@latest -c ./configs/coretime-rococo.yml",
-    "zombienet": "",
+    "zombienet": "./scripts/run_zombienet.sh minimal",
+    "zombienet:full": "./scripts/run_zombienet.sh full",
     "chopsticks-init": "npx ts-node src/chopsticks.init.ts",
     "zombienet-init": "npx ts-node src/zombienet.init.ts",
     "zombienet-init:full": "npx ts-node src/zombienet.init.ts --fullNetwork"
