@@ -5,3 +5,4 @@
 [submodule "Astar"]
 	path = Astar
 	url = https://github.com/RegionX-Labs/Astar.git
+	branch = "regionx-astar"
