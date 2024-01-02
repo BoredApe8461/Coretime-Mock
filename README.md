@@ -43,34 +43,23 @@ In case we want to run the full local network, which will allow us to test the c
 
 # Runs the full zombienet network:
 npm run zombienet:full
-
-# After waiting a few minutes for the network initialization and once both parachains
-# begin block production, we can proceed to initialize the environment. 
-# This can be done by executing the following command:
-npm run zombienet-init --fullNetwork
 ```
 
-### Getting started with Chopsticks
+After waiting a few minutes for the network initialization and once both parachains begin block production, we can proceed to initialize the environment.
 
-The Coretime chain is already deployed on Rococo (🥳) so that allows us to use Chopsticks for parts of the local testing.
+During initialization, the script establishes an HRMP connection between the Coretime chain and the smart contract chain. 
+After that the script will setup the Coretime chain, by setting the initial config and starting the bulk sale.
+Subsequently, it deploys the xc-region contract, mints a mock region, and stores its metadata. For easier testing, the script includes a feature allowing users to designate their account. When specified the wrapped region is transferred directly to the account, facilitating straightforward testing on the frontend.
 
-The steps to run a Coretime chain locally and setup the mock environment:
-
+This can be done by executing the following command:
 ```sh
-npm i
-
-# This will run a parallel copy of the Coretime chain
-npm run chopsticks
-
-# In a new terminal:
-
-# This will add some mock data to the Coretime chain
-npm run chopsticks-init
+# NOTE: Before running this command, you must build the xc-region contract.
+npm run zombienet-init:full -- --contracts ../RegionX/target/ink/ --account <account on contracts chain>
 ```
 
 ### Getting started with Chopsticks
 
-The Coretime chain is already deployed on Rococo (🥳) so that allows us to use Chopsticks for parts of the local testing.
+The Coretime chain is already deployed on Rococo (🥳), allowing us to use Chopsticks for aspects of local frontend testing that do not require the xc-regions contract.
 
 The steps to run a Coretime chain locally and setup the mock environment:
 

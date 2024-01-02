@@ -1,5 +1,5 @@
 import { ApiPromise, WsProvider, Keyring } from "@polkadot/api";
-import { purchaseRegion } from "./common";
+import { purchaseRegion, log } from "./common";
 import { cryptoWaitReady } from "@polkadot/util-crypto";
 import { Timeslice } from "./types";
 import * as consts from "./consts";
@@ -19,26 +19,21 @@ async function init() {
 init().then(() => process.exit(0));
 
 async function startBulkSale(rococoApi: ApiPromise, coretimeApi: ApiPromise) {
-  const latestRcBlock = (
-    await rococoApi.rpc.chain.getHeader()
-  ).number.toNumber();
+  const latestRcBlock = (await rococoApi.rpc.chain.getHeader()).number.toNumber();
   await setStatus(coretimeApi, latestRcBlock);
-  console.log("status set");
+  log("status set");
   await initializeSale(coretimeApi, latestRcBlock);
-  console.log("sale initialized");
+  log("sale initialized");
 
   const alice = keyring.addFromUri("//Alice");
   await cryptoWaitReady();
 
   // Alice buys a region.
   await purchaseRegion(coretimeApi, alice);
-  console.log("Region purchased");
+  log("Region purchased");
 }
 
-async function setStatus(
-  coretimeApi: ApiPromise,
-  latestRcBlock: number,
-): Promise<any> {
+async function setStatus(coretimeApi: ApiPromise, latestRcBlock: number): Promise<any> {
   const commitTimeslice = getLatestTimesliceReadyToCommit(latestRcBlock);
 
   const status = {
@@ -57,10 +52,7 @@ async function setStatus(
   return await coretimeApi.rpc("dev_newBlock");
 }
 
-async function initializeSale(
-  coretimeApi: ApiPromise,
-  latestRcBlock: number,
-): Promise<any> {
+async function initializeSale(coretimeApi: ApiPromise, latestRcBlock: number): Promise<any> {
   const now = (await coretimeApi.rpc.chain.getHeader()).number.toNumber();
   const commitTimeslice = getLatestTimesliceReadyToCommit(latestRcBlock);
 
@@ -89,6 +81,6 @@ function currentTimeslice(latestRcBlock: number) {
 }
 
 function getLatestTimesliceReadyToCommit(latestRcBlock: number): Timeslice {
-  let advanced = latestRcBlock + consts.CONFIG.advance_notice;
+  const advanced = latestRcBlock + consts.CONFIG.advance_notice;
   return Math.floor(advanced / consts.TIMESLICE_PERIOD);
 }
