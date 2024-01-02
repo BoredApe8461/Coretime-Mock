@@ -25,6 +25,8 @@ If we only want to test functionality that is not related to any of the contract
 # Coretime chain.
 ./scripts/minimal_init.sh
 
+npm i
+
 # Runs the zombienet network:
 npm run zombienet
 
@@ -41,6 +43,8 @@ In case we want to run the full local network, which will allow us to test the c
 # Coretime chain, and a smart contract chain.
 ./scripts/full_init.sh
 
+npm i
+
 # Runs the full zombienet network:
 npm run zombienet:full
 ```
@@ -48,8 +52,12 @@ npm run zombienet:full
 After waiting a few minutes for the network initialization and once both parachains begin block production, we can proceed to initialize the environment.
 
 During initialization, the script establishes an HRMP connection between the Coretime chain and the smart contract chain. 
-After that the script will setup the Coretime chain, by setting the initial config and starting the bulk sale.
-Subsequently, it deploys the xc-region contract, mints a mock region, and stores its metadata. For easier testing, the script includes a feature allowing users to designate their account. When specified the wrapped region is transferred directly to the account, facilitating straightforward testing on the frontend.
+
+After that, the script will setup the Coretime chain, by setting the initial config and starting the bulk sale.
+
+Subsequently, it deploys the xc-region contract, mints a mock region, and stores its metadata.
+
+For easier testing, the script includes a feature allowing users to designate their account. When specified the wrapped region is transferred directly to the account, facilitating straightforward testing on the frontend.
 
 This can be done by executing the following command:
 ```sh
