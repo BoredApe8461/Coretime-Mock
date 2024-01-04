@@ -1,7 +1,7 @@
 import { ApiPromise, WsProvider, Keyring } from "@polkadot/api";
 import { u8aToHex } from "@polkadot/util";
 import { cryptoWaitReady } from "@polkadot/util-crypto";
-import { purchaseRegion, log, normalizePath, encodeRegionId } from "./common";
+import { purchaseRegion, log, normalizePath, encodeRegionId, transferRegion } from "./common";
 import { Abi, ContractPromise } from "@polkadot/api-contract";
 import { program } from "commander";
 import fs from "fs";
@@ -11,7 +11,11 @@ import process from "process";
 import type { WeightV2 } from "@polkadot/types/interfaces";
 import { BN, bnToBn } from "@polkadot/util";
 
-program.option("--fullNetwork").option("--contracts <string>").option("--account <string>");
+program
+  .option("--fullNetwork")
+  .option("--contracts <string>")
+  .option("--contractsAccount <string>")
+  .option("--coretimeAccount <string>");
 
 program.parse(process.argv);
 
@@ -43,10 +47,15 @@ async function init() {
 
   // Takes some time to get everything ready before being able to perform a purchase.
   await sleep(60000);
-  await purchaseRegion(coretimeApi, alice);
+  const regionId = await purchaseRegion(coretimeApi, alice);
+
+  const coretimeAccount = program.opts().coretimeAccount;
+  if (coretimeAccount) {
+    await transferRegion(coretimeApi, alice, coretimeAccount, regionId);
+  }
 
   if (program.opts().fullNetwork) {
-    const account = program.opts().account;
+    const account = program.opts().contractsAccount;
 
     await openHrmpChannel(rococoApi, CORETIME_CHAIN_PARA_ID, CONTRACTS_CHAIN_PARA_ID);
 
