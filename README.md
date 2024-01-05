@@ -62,7 +62,7 @@ For easier testing, the script includes a feature allowing users to designate th
 This can be done by executing the following command:
 ```sh
 # NOTE: Before running this command, you must build the xc-region contract.
-npm run zombienet-init:full -- --contracts ../RegionX/target/ink/ --account <account on contracts chain>
+npm run zombienet-init:full -- --contracts ../RegionX/target/ink/ --coretimeAccount <account on contracts chain>
 ```
 
 ### Getting started with Chopsticks
