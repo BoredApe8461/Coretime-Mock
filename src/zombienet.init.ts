@@ -66,8 +66,8 @@ async function init() {
     await createRegionCollection(contractsApi);
 
     const mockRegion: Region = {
-      regionId: { begin: 0, core: 0, mask: consts.HALF_FULL_MASK },
-      regionRecord: { end: 30, owner: alice.address, paid: null },
+      regionId: { begin: 30, core: 0, mask: consts.HALF_FULL_MASK },
+      regionRecord: { end: 60, owner: alice.address, paid: null },
     };
 
     await mintRegion(contractsApi, mockRegion.regionId);
