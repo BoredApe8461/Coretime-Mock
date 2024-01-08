@@ -8,7 +8,7 @@ The local environment consists of three chains:
 
 -   Rococo relay chain
 -   Coretime parachain
--   Swanky parachain (NOTE: This can be replaced by any parachain that supports WASM contracts)
+-   Astar Shibuya parachain
 
 <p align="center">
  <img src="./docs/topology.png" />
