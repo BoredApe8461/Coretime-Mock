@@ -1,8 +1,8 @@
 import { ApiPromise, WsProvider, Keyring } from "@polkadot/api";
 import { purchaseRegion, log } from "./common";
 import { cryptoWaitReady } from "@polkadot/util-crypto";
-import { Timeslice } from "./types";
 import * as consts from "./consts";
+import { Timeslice } from "coretime-utils";
 
 const keyring = new Keyring({ type: "sr25519" });
 

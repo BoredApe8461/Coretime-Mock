@@ -1,8 +1,7 @@
 import { ApiPromise } from "@polkadot/api";
 import { KeyringPair } from "@polkadot/keyring/types";
-import BN from "bn.js";
 import * as consts from "./consts";
-import { RegionId } from "./types";
+import { CoreMask, RegionId } from "coretime-utils";
 
 export async function purchaseRegion(coretimeApi: ApiPromise, buyer: KeyringPair): Promise<RegionId> {
   log(`Purchasing a reigon.`);
@@ -54,7 +53,7 @@ async function getRegionId(coretimeApi: ApiPromise): Promise<RegionId> {
     }
   }
 
-  return { begin: 0, core: 0, mask: "" };
+  return { begin: 0, core: 0, mask: CoreMask.voidMask() };
 }
 
 export function log(message: string) {
@@ -67,13 +66,4 @@ export function normalizePath(path: string) {
     return path.slice(0, -1);
   }
   return path;
-}
-
-export function encodeRegionId(contractsApi: ApiPromise, regionId: RegionId): BN {
-  const encodedBegin = contractsApi.createType("u32", regionId.begin).toHex().substring(2);
-  const encodedCore = contractsApi.createType("u16", regionId.core).toHex().substring(2);
-
-  const rawRegionId = encodedBegin + encodedCore + regionId.mask.substring(2);
-
-  return new BN(rawRegionId, 16);
 }

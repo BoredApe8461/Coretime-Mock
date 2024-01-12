@@ -5,9 +5,6 @@ export const CORE_COUNT = 10;
 export const TIMESLICE_PERIOD = 80; // one para block has a duration of two relay chain blocks.
 export const IDEAL_CORES_SOLD = 5;
 
-export const FULL_MASK = "0xFFFFFFFFFFFFFFFFFFFF"; // hex encoded 80 bit bitmap.
-export const HALF_FULL_MASK = "0xFFFFFFFFFF0000000000"; // hex encoded 80 bit bitmap.
-
 export const CONFIG = {
   advance_notice: 20,
   interlude_length: 0,

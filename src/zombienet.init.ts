@@ -1,12 +1,12 @@
 import { ApiPromise, WsProvider, Keyring } from "@polkadot/api";
 import { u8aToHex } from "@polkadot/util";
 import { cryptoWaitReady } from "@polkadot/util-crypto";
-import { purchaseRegion, log, normalizePath, encodeRegionId, transferRegion } from "./common";
+import { purchaseRegion, log, normalizePath, transferRegion } from "./common";
 import { Abi, ContractPromise } from "@polkadot/api-contract";
 import { program } from "commander";
 import fs from "fs";
 import * as consts from "./consts";
-import { Region, RegionId, Id } from "./types";
+import { CoreMask, Id, Region } from "coretime-utils";
 import process from "process";
 import type { WeightV2 } from "@polkadot/types/interfaces";
 import { BN, bnToBn } from "@polkadot/util";
@@ -65,16 +65,16 @@ async function init() {
     const xcRegionsAddress = await deployXcRegionsCode(contractsApi);
     await createRegionCollection(contractsApi);
 
-    const mockRegion: Region = {
-      regionId: { begin: 30, core: 0, mask: consts.HALF_FULL_MASK },
-      regionRecord: { end: 60, owner: alice.address, paid: null },
-    };
+    const mockRegion = new Region(
+      { begin: 30, core: 0, mask: CoreMask.fromChunk(0, 40) },
+      { end: 60, owner: alice.address, paid: null }
+    );
 
-    await mintRegion(contractsApi, mockRegion.regionId);
-    await approveTransfer(contractsApi, mockRegion.regionId, xcRegionsAddress);
+    await mintRegion(contractsApi, mockRegion);
+    await approveTransfer(contractsApi, mockRegion, xcRegionsAddress);
     await initXcRegion(contractsApi, xcRegionsAddress, mockRegion);
     if (account) {
-      await transferWrappedRegion(contractsApi, xcRegionsAddress, mockRegion.regionId, account);
+      await transferWrappedRegion(contractsApi, xcRegionsAddress, mockRegion, account);
     }
   }
 }
@@ -183,11 +183,11 @@ async function createRegionCollection(contractsApi: ApiPromise): Promise<void> {
   return new Promise(callTx);
 }
 
-async function mintRegion(contractsApi: ApiPromise, regionId: RegionId): Promise<void> {
+async function mintRegion(contractsApi: ApiPromise, region: Region): Promise<void> {
   log(`Minting a region`);
 
   const alice = keyring.addFromUri("//Alice");
-  const rawRegionId = encodeRegionId(contractsApi, regionId);
+  const rawRegionId = region.getEncodedRegionId(contractsApi);
   const mintCall = contractsApi.tx.uniques.mint(REGION_COLLECTION_ID, rawRegionId, alice.address);
 
   const callTx = async (resolve: () => void) => {
@@ -202,11 +202,11 @@ async function mintRegion(contractsApi: ApiPromise, regionId: RegionId): Promise
   return new Promise(callTx);
 }
 
-async function approveTransfer(contractsApi: ApiPromise, regionId: RegionId, delegate: string): Promise<void> {
+async function approveTransfer(contractsApi: ApiPromise, region: Region, delegate: string): Promise<void> {
   log(`Approving region to ${delegate}`);
 
   const alice = keyring.addFromUri("//Alice");
-  const rawRegionId = encodeRegionId(contractsApi, regionId);
+  const rawRegionId = region.getEncodedRegionId(contractsApi);
   const approveCall = contractsApi.tx.uniques.approveTransfer(REGION_COLLECTION_ID, rawRegionId, delegate);
 
   const callTx = async (resolve: () => void) => {
@@ -229,7 +229,8 @@ async function initXcRegion(contractsApi: ApiPromise, contractAddress: string, r
   const metadata = getXcRegionsMetadata(contractsApi, contractsPath);
   const xcRegionsContract = new ContractPromise(contractsApi, metadata, contractAddress);
 
-  const rawRegionId = encodeRegionId(contractsApi, region.regionId);
+  const rawRegionId = region.getEncodedRegionId(contractsApi);
+  console.log(region.getMask());
 
   const alice = keyring.addFromUri("//Alice");
 
@@ -237,10 +238,10 @@ async function initXcRegion(contractsApi: ApiPromise, contractAddress: string, r
     rawRegionId,
     // All the region metadata combined:
     {
-      begin: region.regionId.begin,
-      end: region.regionRecord.end,
-      core: region.regionId.core,
-      mask: region.regionId.mask,
+      begin: region.getBegin(),
+      end: region.getEnd(),
+      core: region.getCore(),
+      mask: region.getMask().getMask(),
     },
   ];
 
@@ -264,7 +265,7 @@ async function initXcRegion(contractsApi: ApiPromise, contractAddress: string, r
 async function transferWrappedRegion(
   contractsApi: ApiPromise,
   contractAddress: string,
-  regionId: RegionId,
+  region: Region,
   receiver: string
 ): Promise<void> {
   log(`Transferring wrapped region to ${receiver}`);
@@ -274,7 +275,7 @@ async function transferWrappedRegion(
   const metadata = getXcRegionsMetadata(contractsApi, contractsPath);
   const xcRegionsContract = new ContractPromise(contractsApi, metadata, contractAddress);
 
-  const rawRegionId = encodeRegionId(contractsApi, regionId);
+  const rawRegionId = region.getEncodedRegionId(contractsApi);
 
   const alice = keyring.addFromUri("//Alice");
 
