@@ -16,6 +16,14 @@ The local environment consists of three chains:
 
 ### Getting started with Zombienet
 
+```sh
+# Clone the repo:
+git clone https://github.com/RegionX-Labs/Coretime-Mock.git
+
+# Pull the submodules:
+git submodule update --init
+```
+
 To run the local environment, we will first need to get all the necessary binaries.
 
 If we only want to test functionality that is not related to any of the contracts, we can simply run the `minimal_network.toml` zombienet script:
@@ -51,18 +59,38 @@ npm run zombienet:full
 
 After waiting a few minutes for the network initialization and once both parachains begin block production, we can proceed to initialize the environment.
 
-During initialization, the script establishes an HRMP connection between the Coretime chain and the smart contract chain. 
+This repo provides an init program which will based on the selected options set up the local network appropriately. The program exposes the following options:
 
-After that, the script will setup the Coretime chain, by setting the initial config and starting the bulk sale.
+1.  `--fullNetwork`:
+    
+    -   Description: When set the program will spin up the contracts chain and open an HRMP channel with the Coretime chain.
 
-Subsequently, it deploys the xc-region contract, mints a mock region, and stores its metadata.
+2.  `--contracts <string>`:
+    
+    -   Description: Sets the path to the compiled RegionX contracts.
 
-For easier testing, the script includes a feature allowing users to designate their account. When specified the wrapped region is transferred directly to the account, facilitating straightforward testing on the frontend.
+3.  `--contractsAccount <string>`:
+    
+    -   Description:  Specify an account on the contracts chain. When specified the program will transfer a mock xc-region to this account.
+    
+4.  `--coretimeAccount <string>`:
+    
+    -   Description: Specify an account on the coretime chain. When specified the program will transfer a mock region to this account.
 
-This can be done by executing the following command:
+**An example with all options:**
 ```sh
-# NOTE: Before running this command, you must build the xc-region contract.
-npm run zombienet-init:full -- --contracts ../RegionX/target/ink/ --coretimeAccount <account on contracts chain>
+# Before executing the zombienet-init:full command, ensure that the contracts within the RegionX directory are compiled.  
+# To compile the contracts, navigate to the RegionX directory and execute the following commands:  
+# 
+# cd RegionX/contracts/xc-regions
+# cargo contract build
+# 
+# After successful compilation, you can initialize the full network setup using the command below.
+
+npm run zombienet-init:full -- \
+  --contracts ../RegionX/target/ink/ \
+  --coretimeAccount "<account on coretime chain>" \
+  --contractsAccount "<account on contracts chain>"
 ```
 
 ### Getting started with Chopsticks

@@ -230,7 +230,6 @@ async function initXcRegion(contractsApi: ApiPromise, contractAddress: string, r
   const xcRegionsContract = new ContractPromise(contractsApi, metadata, contractAddress);
 
   const rawRegionId = region.getEncodedRegionId(contractsApi);
-  console.log(region.getMask());
 
   const alice = keyring.addFromUri("//Alice");
 

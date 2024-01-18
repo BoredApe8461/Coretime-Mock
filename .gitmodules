@@ -1,7 +1,7 @@
 [submodule "polkadot-sdk"]
 	path = polkadot-sdk
 	url = https://github.com/paritytech/polkadot-sdk.git
-	branch = joe-coretime-chain
+	branch = "release-polkadot-v1.6.0"
 [submodule "Astar"]
 	path = Astar
 	url = https://github.com/RegionX-Labs/Astar.git
