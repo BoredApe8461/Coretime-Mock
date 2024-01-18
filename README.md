@@ -16,6 +16,9 @@ The local environment consists of three chains:
 
 ### Getting started with Zombienet
 
+NOTE: Before proceeding make sure to have zombienet setup on your machine and accessible from your PATH.
+You can find linux and macOS executables of the Zombienet CLI [here](https://github.com/paritytech/zombienet/releases)
+
 ```sh
 # Clone the repo:
 git clone https://github.com/RegionX-Labs/Coretime-Mock.git
@@ -78,8 +81,13 @@ This repo provides an init program which will based on the selected options set 
     -   Description: Specify an account on the coretime chain. When specified the program will transfer a mock region to this account.
 
 **An example with all options:**
+
+> NOTE: As explained above `npm run zombienet:full` must be running in the background to be able to proceed with the following steps:
+
 ```sh
 # Before executing the zombienet-init:full command, ensure that the contracts within the RegionX directory are compiled.  
+# Before compiling the contract make sure the pallet index is configured correctly for Shibuya: 
+# https://github.com/RegionX-Labs/RegionX?tab=readme-ov-file#4-deploy
 # To compile the contracts, navigate to the RegionX directory and execute the following commands:  
 # 
 # cd RegionX/contracts/xc-regions
