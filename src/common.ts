@@ -4,7 +4,7 @@ import * as consts from "./consts";
 import { CoreMask, RegionId } from "coretime-utils";
 
 export async function purchaseRegion(coretimeApi: ApiPromise, buyer: KeyringPair): Promise<RegionId> {
-  log(`Purchasing a reigon.`);
+  log(`Purchasing a region.`);
 
   const callTx = async (resolve: (regionId: RegionId) => void) => {
     const purchase = coretimeApi.tx.broker.purchase(consts.INITIAL_PRICE * 2);
@@ -26,7 +26,7 @@ export async function transferRegion(
   receiver: string,
   regionId: RegionId
 ): Promise<void> {
-  log(`Transferring a reigon to ${receiver}`);
+  log(`Transferring a region to ${receiver}`);
 
   const callTx = async (resolve: () => void) => {
     const transfer = coretimeApi.tx.broker.transfer(regionId, receiver);
@@ -42,7 +42,7 @@ export async function transferRegion(
 }
 
 async function getRegionId(coretimeApi: ApiPromise): Promise<RegionId> {
-  log("Getting contract address");
+  log("Getting regionId");
   const events: any = await coretimeApi.query.system.events();
 
   for (const record of events) {
