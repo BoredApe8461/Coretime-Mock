@@ -226,11 +226,12 @@ async function initXcRegion(contractsApi: ApiPromise, contractAddress: string, r
   const xcRegionsContract = new ContractPromise(contractsApi, metadata, contractAddress);
 
   const rawRegionId = region.getEncodedRegionId(contractsApi);
+  const id = contractsApi.createType("Id", { U128: rawRegionId });
 
   const alice = keyring.addFromUri("//Alice");
 
   const callArguments = [
-    rawRegionId,
+    id,
     // All the region metadata combined:
     {
       begin: region.getBegin(),
