@@ -1,6 +1,7 @@
+
 # Simulated Coretime Environment
 
-The purpose of this directory is to consolidate all the necessary components for testing RegionX functionality in one place. This repository offers zombienet scripts, simplifying the process of spinning up the required chains for testing.
+The purpose of this directory is to consolidate all the necessary components for testing RegionX functionality in one place. This repository offers  scrits, simplifying the process of spinning up the required chains for testing.
 
 ### Topology
 
@@ -34,72 +35,90 @@ If we only want to test functionality that is not related to any of the contract
 ```sh
 # This script compiles all the necessary binaries for running a Rococo relay chain,
 # Coretime chain.
-./scripts/minimal_init.sh
-
-npm i
-
-# Runs the zombienet network:
-npm run zombienet
-
-# After waiting a few minutes for the network initialization and once the parachain 
-# begins block production, we can proceed to initialize the Coretime chain. 
-# This can be done by executing the following command:
-npm run zombienet-init  
+./scripts/minimal_init.sh 
 ```
 
-In case we want to run the full local network, which will allow us to test the contracts as well, the following commands need to be run instead:
+In case we want to run the full local network, which will allow us to test the contracts as well, we need to get the binary from the contracts parachain as well:
 
 ```sh
 # This script compiles all the necessary binaries for running a Rococo relay chain,
 # Coretime chain, and a smart contract chain.
 ./scripts/full_init.sh
-
-npm i
-
-# Runs the full zombienet network:
-npm run zombienet:full
 ```
 
 After waiting a few minutes for the network initialization and once both parachains begin block production, we can proceed to initialize the environment.
 
 This repo provides an init program which will based on the selected options set up the local network appropriately. The program exposes the following options:
 
-1.  `--fullNetwork`:
+1.  `--relayInit`:
     
-    -   Description: When set the program will spin up the contracts chain and open an HRMP channel with the Coretime chain.
+    -   Description: Initializes the relay chain. The only thing this actually does is open an HRMP channel between the two parachains.
 
-2.  `--contracts <string>`:
+2.  `--coretimeInit`:
     
-    -   Description: Sets the path to the compiled RegionX contracts.
+    -   Description: Initializes the coretime chain by setting the initial configuration, starting the bulk sale and buying a region.
 
-3.  `--contractsAccount <string>`:
+3.  `--contractsInit`:
     
-    -   Description:  Specify an account on the contracts chain. When specified the program will transfer a mock xc-region to this account.
+    -   Description: Initializes the contracts parachain by creating a collection to represent regions, and mints a mock region. Also, deploys both the `xc-regions` and the `coretime-market` contracts.
+
+4.  `--contractsAccount <string>`:
     
-4.  `--coretimeAccount <string>`:
+    -   Description:  Specify an account on the contracts chain. When specified the program will transfer a mock region to this account.
+
+5.  `--contractsPath <string>`:
+    
+    -   Description:  The path to the compiled contracts.
+    
+6.  `--coretimeAccount <string>`:
     
     -   Description: Specify an account on the coretime chain. When specified the program will transfer a mock region to this account.
 
-**An example with all options:**
 
-> NOTE: As explained above `npm run zombienet:full` must be running in the background to be able to proceed with the following steps:
+**Example: Testing contracts related stuff only:**
 
-```sh
-# Before executing the zombienet-init:full command, ensure that the contracts within the RegionX directory are compiled.  
-# Before compiling the contract make sure the pallet index is configured correctly for Shibuya: 
-# https://github.com/RegionX-Labs/RegionX?tab=readme-ov-file#4-deploy
-# To compile the contracts, navigate to the RegionX directory and execute the following commands:  
-# 
-# cd RegionX/contracts/xc-regions
-# cargo contract build
-# 
-# After successful compilation, you can initialize the full network setup using the command below.
+> NOTE: For the following to work, it is expected that the `astar-collator` node is running in the background in `--dev` mode at port `9920`. 
+> 
+> Command for running the node:  `astar-collator --dev --rpc-port 9920`
 
-npm run zombienet-init:full -- \
-  --contracts ../RegionX/target/ink/ \
-  --coretimeAccount "<account on coretime chain>" \
-  --contractsAccount "<account on contracts chain>"
-```
+1.  Compile the contracts in the RegionX directory. Before compilation ensure the uniques pallet index is configured correctly. In this case it should be set to 30: https://github.com/RegionX-Labs/RegionX?tab=readme-ov-file#4-deploy
+	 ```sh
+	cd RegionX/contracts/xc-regions
+	cargo contract build
+
+	cd ../coretime_market
+	cargo contract build
+	```
+
+2.  After successful compilation, you can initialize the contracts chain with the command below.
+	 ```sh
+	npm run zombienet-init -- \
+	--contractsInit \
+	--contractsPath ../RegionX/target/ink/ \
+	--contractsAccount "X2pK59cdJrdw4Ca7cNywKFtCc9bPMRGVefbeYWXa1GJJJsk"
+	```
+
+**Example: Testing with full environment**
+> NOTE: For the following to work, it is expected that you run `npm run zombienet:full` in the background.
+
+1.  Compile the contracts in the RegionX directory. Before compilation ensure the uniques pallet index is configured correctly. In this case it should be set to 37: https://github.com/RegionX-Labs/RegionX?tab=readme-ov-file#4-deploy
+	 ```sh
+	cd RegionX/contracts/xc-regions
+	cargo contract build
+
+	cd ../coretime_market
+	cargo contract build
+	```
+2.  After successful compilation and once all the parachains **started producing blocks**, you can initialize the full network setup using the command below.
+	 ```sh
+	npm run zombienet-init -- \
+	--contractsInit \
+	--coretimeInit \
+	--relayInit \
+	--contractsPath ../RegionX/target/ink/ \
+	--contractsAccount "X2pK59cdJrdw4Ca7cNywKFtCc9bPMRGVefbeYWXa1GJJJsk" \
+	--coretimeAccount "5DADsnBXr5DXiEAjdJvruf6c7ZSUR8iXUTATQqJfheGLiEVm"
+	```
 
 ### Getting started with Chopsticks
 
