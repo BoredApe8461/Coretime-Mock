@@ -5,7 +5,8 @@ export async function relayInit(relayEndpoint: string, coretimeParaId: number, c
   const relayWsProvider = new WsProvider(relayEndpoint);
   const relayApi = await ApiPromise.create({ provider: relayWsProvider });
 
-  openHrmpChannel(relayApi, coretimeParaId, contractsParaId);
+  await openHrmpChannel(relayApi, coretimeParaId, contractsParaId);
+  await openHrmpChannel(relayApi, contractsParaId, coretimeParaId);
 }
 
 async function openHrmpChannel(relayApi: ApiPromise, sender: number, recipient: number): Promise<void> {
@@ -15,12 +16,12 @@ async function openHrmpChannel(relayApi: ApiPromise, sender: number, recipient: 
     sender,
     recipient,
     8, // Max capacity
-    512, // Max message size
+    102400, // Max message size
   ];
 
   const alice = keyring.addFromUri("//Alice");
 
-  const openHrmp = relayApi.tx.hrmp.forceOpenHrmpChannel(...newHrmpChannel);
+  const openHrmp = relayApi.tx.parasSudoWrapper.sudoEstablishHrmpChannel(...newHrmpChannel);
   const sudoCall = relayApi.tx.sudo.sudo(openHrmp);
 
   const callTx = async (resolve: () => void) => {

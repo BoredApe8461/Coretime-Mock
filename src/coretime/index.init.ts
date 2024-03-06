@@ -10,6 +10,7 @@ export async function coretimeInit(coretimeEndpoint: string, coretimeAccount: st
   const coretimeWsProvider = new WsProvider(coretimeEndpoint);
   const coretimeApi = await ApiPromise.create({ provider: coretimeWsProvider });
 
+  await forceSafeXCMVersion(coretimeApi);
   await configureBroker(coretimeApi);
   await startSales(coretimeApi);
 
@@ -18,6 +19,7 @@ export async function coretimeInit(coretimeEndpoint: string, coretimeAccount: st
   const regionId = await purchaseRegion(coretimeApi, alice);
 
   if (coretimeAccount) {
+    await setBalance(coretimeApi, coretimeAccount, (1000 * consts.UNIT).toString());
     await transferRegion(coretimeApi, alice, coretimeAccount, regionId);
   }
 }
@@ -34,6 +36,13 @@ async function startSales(coretimeApi: ApiPromise): Promise<void> {
 
   const startSaleCall = coretimeApi.tx.broker.startSales(consts.INITIAL_PRICE, consts.CORE_COUNT);
   return force(coretimeApi, startSaleCall);
+}
+
+async function forceSafeXCMVersion(coretimeApi: ApiPromise): Promise<void> {
+  log(`Setting the safe XCM version to V3`);
+
+  const setVersionCall = coretimeApi.tx.polkadotXcm.forceDefaultXcmVersion([3]);
+  return force(coretimeApi, setVersionCall);
 }
 
 export async function purchaseRegion(coretimeApi: ApiPromise, buyer: KeyringPair): Promise<RegionId> {

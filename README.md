@@ -74,6 +74,9 @@ This repo provides an init program which will based on the selected options set 
     
     -   Description: Specify an account on the coretime chain. When specified the program will transfer a mock region to this account.
 
+7.  `--mintXcRegions <string>`:
+    
+    -   Description: Mints a couple of mock xc-regions. Convenient for testing the market functionality.
 
 **Example: Testing contracts related stuff only:**
 

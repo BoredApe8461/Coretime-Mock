@@ -1,5 +1,5 @@
 import { ApiPromise } from "@polkadot/api";
-import { log } from "../utils";
+import { force, log } from "../utils";
 import { keyring } from "../utils";
 import { Region } from "coretime-utils";
 
@@ -22,6 +22,24 @@ export async function createRegionCollection(contractsApi: ApiPromise): Promise<
   };
 
   return new Promise(callTx);
+}
+
+export async function registerXcRegionAsset(contractsApi: ApiPromise): Promise<void> {
+  log(`Registering xc-region asset`);
+
+  const registerCall = contractsApi.tx.xcAssetConfig.registerAssetLocation(
+    {
+      V3: {
+        parents: 1,
+        interior: {
+          X2: [{ Parachain: 1005 }, { PalletInstance: 50 }],
+        },
+      },
+    },
+    REGION_COLLECTION_ID
+  );
+
+  return force(contractsApi, registerCall);
 }
 
 export async function mintRegion(contractsApi: ApiPromise, region: Region): Promise<void> {
