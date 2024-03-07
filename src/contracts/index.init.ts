@@ -35,7 +35,7 @@ export async function contractsInit(contractsEndpoint: string, account: string, 
       ),
       new Region({ begin: 5, core: 1, mask: CoreMask.completeMask() }, { end: 30, owner: alice.address, paid: null }),
       new Region(
-        { begin: 5, core: 1, mask: CoreMask.fromChunk(40, 60) },
+        { begin: 5, core: 2, mask: CoreMask.fromChunk(40, 60) },
         { end: 30, owner: alice.address, paid: null }
       ),
     ];
