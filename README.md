@@ -3,7 +3,7 @@
 
 The purpose of this directory is to consolidate all the necessary components for testing RegionX functionality in one place. This repository offers  scrits, simplifying the process of spinning up the required chains for testing.
 
-### Topology
+## Topology
 
 The local environment consists of three chains:
 
@@ -15,7 +15,7 @@ The local environment consists of three chains:
  <img src="./docs/topology.png" />
 </p>
 
-### Getting started with Zombienet
+## Getting started with Zombienet
 
 NOTE: Before proceeding make sure to have zombienet setup on your machine and accessible from your PATH.
 You can find linux and macOS executables of the Zombienet CLI [here](https://github.com/paritytech/zombienet/releases)
@@ -74,11 +74,11 @@ This repo provides an init program which will based on the selected options set 
     
     -   Description: Specify an account on the coretime chain. When specified the program will transfer a mock region to this account.
 
-7.  `--mintXcRegions <string>`:
+7.  `--mintXcRegions`:
     
     -   Description: Mints a couple of mock xc-regions. Convenient for testing the market functionality.
 
-**Example: Testing contracts related stuff only:**
+### Example: Testing contracts related stuff only:
 
 > NOTE: For the following to work, it is expected that the `astar-collator` node is running in the background in `--dev` mode at port `9920`. 
 > 
@@ -98,10 +98,11 @@ This repo provides an init program which will based on the selected options set 
 	npm run zombienet-init -- \
 	--contractsInit \
 	--contractsPath ../RegionX/target/ink/ \
-	--contractsAccount "X2pK59cdJrdw4Ca7cNywKFtCc9bPMRGVefbeYWXa1GJJJsk"
+	--contractsAccount "X2pK59cdJrdw4Ca7cNywKFtCc9bPMRGVefbeYWXa1GJJJsk" \
+  	--mintXcRegions
 	```
 
-**Example: Testing with full environment**
+### Example: Testing with full environment
 > NOTE: For the following to work, it is expected that you run `npm run zombienet:full` in the background.
 
 1.  Compile the contracts in the RegionX directory. Before compilation ensure the uniques pallet index is configured correctly. In this case it should be set to 37: https://github.com/RegionX-Labs/RegionX?tab=readme-ov-file#4-deploy
@@ -123,7 +124,7 @@ This repo provides an init program which will based on the selected options set 
 	--coretimeAccount "5DADsnBXr5DXiEAjdJvruf6c7ZSUR8iXUTATQqJfheGLiEVm"
 	```
 
-### Getting started with Chopsticks
+## Getting started with Chopsticks
 
 The Coretime chain is already deployed on Rococo (🥳), allowing us to use Chopsticks for aspects of local frontend testing that do not require the xc-regions contract.
 
