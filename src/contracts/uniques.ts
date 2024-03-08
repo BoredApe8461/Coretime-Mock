@@ -25,7 +25,7 @@ export async function createRegionCollection(contractsApi: ApiPromise): Promise<
 }
 
 export async function registerXcRegionAsset(contractsApi: ApiPromise): Promise<void> {
-  if(!contractsApi.tx.xcAssetConfig) return;
+  if (!contractsApi.tx.xcAssetConfig) return;
 
   log(`Registering xc-region asset`);
 
