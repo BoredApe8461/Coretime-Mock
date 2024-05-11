@@ -15,7 +15,7 @@ export async function regionxInit(relayEndpoint: string, regionxEndpoint: string
   await setupRelayAsset(regionxApi);
 
   if (regionxAccount) {
-    await transferRelayTokensToRegionX(10n**12n, relayApi, alice);
+    await transferRelayTokensToRegionX(10n ** 12n, relayApi, alice);
   }
 }
 
@@ -23,8 +23,8 @@ async function setupRelayAsset(api: ApiPromise) {
   log("Settting up relay token on RegionX");
   const assetMetadata = {
     decimals: 12,
-    name: 'ROC',
-    symbol: 'ROC',
+    name: "ROC",
+    symbol: "ROC",
     existentialDeposit: 10n ** 3n,
     location: null,
     additional: null,
@@ -38,17 +38,13 @@ async function setupRelayAsset(api: ApiPromise) {
   const batchCall = api.tx.utility.batch(assetSetupCalls);
   return force(api, batchCall);
 }
-async function transferRelayTokensToRegionX(
-  amount: bigint,
-  relayApi: ApiPromise,
-  signer: KeyringPair
-): Promise<void> {
+async function transferRelayTokensToRegionX(amount: bigint, relayApi: ApiPromise, signer: KeyringPair): Promise<void> {
   log("Teleporting relay tokens to RegionX");
   const receiverKeypair = new Keyring();
   receiverKeypair.addFromAddress(signer.address);
 
   const feeAssetItem = 0;
-  const weightLimit = 'Unlimited';
+  const weightLimit = "Unlimited";
   const reserveTransfer = relayApi.tx.xcmPallet.limitedReserveTransferAssets(
     { V3: { parents: 0, interior: { X1: { Parachain: 2000 } } } }, //dest
     {
@@ -57,7 +53,7 @@ async function transferRelayTokensToRegionX(
         interior: {
           X1: {
             AccountId32: {
-              chain: 'Any',
+              chain: "Any",
               id: receiverKeypair.pairs[0].publicKey,
             },
           },
@@ -68,7 +64,7 @@ async function transferRelayTokensToRegionX(
       V3: [
         {
           id: {
-            Concrete: { parents: 0, interior: 'Here' },
+            Concrete: { parents: 0, interior: "Here" },
           },
           fun: {
             Fungible: amount,

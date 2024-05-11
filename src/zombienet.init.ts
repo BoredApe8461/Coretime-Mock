@@ -10,7 +10,7 @@ program
   .option("--coretimeInit")
   .option("--regionxInit")
   .option("--coretimeAccount <string>")
-  .option("--regionxAccount <string>")
+  .option("--regionxAccount <string>");
 
 program.parse(process.argv);
 
@@ -32,7 +32,7 @@ async function init() {
     await coretimeInit(CORETIME_ENDPOINT, program.opts().coretimeAccount || "");
   }
 
-  if(program.opts().regionxInit) {
+  if (program.opts().regionxInit) {
     await regionxInit(ROCOCO_ENDPOINT, REGIONX_ENDPOINT, program.opts().regionxAccount || "");
   }
 }
