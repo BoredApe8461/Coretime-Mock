@@ -1,5 +1,5 @@
 import { ApiPromise, Keyring, WsProvider } from "@polkadot/api";
-import { force, keyring, log } from "../utils";
+import { force, keyring, log, submitExtrinsic } from "../utils";
 import { KeyringPair } from "@polkadot/keyring/types";
 
 const RELAY_ASSET_ID = 1;
@@ -15,7 +15,9 @@ export async function regionxInit(relayEndpoint: string, regionxEndpoint: string
   await setupRelayAsset(regionxApi);
 
   if (regionxAccount) {
-    await transferRelayTokensToRegionX(10n ** 12n, relayApi, alice);
+    const giveBalanceCall = regionxApi.tx.balances.forceSetBalance(regionxAccount, 10n ** 18n);
+    await force(regionxApi, giveBalanceCall);
+    await transferRelayTokensToRegionX(100n * 10n ** 12n, regionxAccount, relayApi, alice);
   }
 }
 
@@ -38,10 +40,10 @@ async function setupRelayAsset(api: ApiPromise) {
   const batchCall = api.tx.utility.batch(assetSetupCalls);
   return force(api, batchCall);
 }
-async function transferRelayTokensToRegionX(amount: bigint, relayApi: ApiPromise, signer: KeyringPair): Promise<void> {
+async function transferRelayTokensToRegionX(amount: bigint, receiver: string, relayApi: ApiPromise, signer: KeyringPair): Promise<void> {
   log("Teleporting relay tokens to RegionX");
   const receiverKeypair = new Keyring();
-  receiverKeypair.addFromAddress(signer.address);
+  receiverKeypair.addFromAddress(receiver);
 
   const feeAssetItem = 0;
   const weightLimit = "Unlimited";
@@ -76,14 +78,5 @@ async function transferRelayTokensToRegionX(amount: bigint, relayApi: ApiPromise
     weightLimit
   );
 
-  const callTx = async (resolve: () => void) => {
-    const unsub = await reserveTransfer.signAndSend(signer, async (result: any) => {
-      if (result.status.isInBlock) {
-        unsub();
-        resolve();
-      }
-    });
-  };
-
-  return new Promise(callTx);
+  return submitExtrinsic(signer, reserveTransfer, {});
 }

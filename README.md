@@ -58,7 +58,7 @@ This repo provides an initialization program which will based on the selected op
 1. Run `npm run zombienet:full` in a separate terminal
 2.  Once the parachains **started producing blocks**,  setup the environment using the command below:
 	 ```sh
-	npm run zombienet-init -- \
+	npm run init -- \
 	--coretimeInit \
 	--relayInit \
 	--regionxInit \

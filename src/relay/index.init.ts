@@ -1,5 +1,5 @@
 import { ApiPromise, WsProvider } from "@polkadot/api";
-import { force, keyring, log } from "../utils";
+import { force, keyring, log, submitExtrinsic } from "../utils";
 
 export async function relayInit(relayEndpoint: string, coretimeParaId: number, contractsParaId: number) {
   const relayWsProvider = new WsProvider(relayEndpoint);
@@ -25,16 +25,7 @@ async function openHrmpChannel(relayApi: ApiPromise, sender: number, recipient: 
   const openHrmp = relayApi.tx.parasSudoWrapper.sudoEstablishHrmpChannel(...newHrmpChannel);
   const sudoCall = relayApi.tx.sudo.sudo(openHrmp);
 
-  const callTx = async (resolve: () => void) => {
-    const unsub = await sudoCall.signAndSend(alice, (result: any) => {
-      if (result.status.isInBlock) {
-        unsub();
-        resolve();
-      }
-    });
-  };
-
-  return new Promise(callTx);
+  return submitExtrinsic(alice, sudoCall, {});
 }
 
 async function forceSafeXCMVersion(relayApi: ApiPromise): Promise<void> {

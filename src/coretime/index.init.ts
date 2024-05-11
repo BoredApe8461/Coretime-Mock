@@ -1,12 +1,10 @@
 import { ApiPromise, WsProvider } from "@polkadot/api";
-import { force, keyring, log, setBalance } from "../utils";
+import { force, keyring, log, setBalance, submitExtrinsic } from "../utils";
 import { KeyringPair } from "@polkadot/keyring/types";
 import { RegionId, voidMask } from "coretime-utils";
 import * as consts from "../consts";
 
 export async function coretimeInit(coretimeEndpoint: string, coretimeAccount: string) {
-  const alice = keyring.addFromUri("//Alice");
-
   const coretimeWsProvider = new WsProvider(coretimeEndpoint);
   const coretimeApi = await ApiPromise.create({ provider: coretimeWsProvider });
 
@@ -14,13 +12,8 @@ export async function coretimeInit(coretimeEndpoint: string, coretimeAccount: st
   await configureBroker(coretimeApi);
   await startSales(coretimeApi);
 
-  await setBalance(coretimeApi, alice.address, (1000 * consts.UNIT).toString());
-
-  const regionId = await purchaseRegion(coretimeApi, alice);
-
   if (coretimeAccount) {
     await setBalance(coretimeApi, coretimeAccount, (1000 * consts.UNIT).toString());
-    await transferRegion(coretimeApi, alice, coretimeAccount, regionId);
   }
 }
 
@@ -55,27 +48,6 @@ export async function purchaseRegion(coretimeApi: ApiPromise, buyer: KeyringPair
         const regionId = await getRegionId(coretimeApi);
         unsub();
         resolve(regionId);
-      }
-    });
-  };
-
-  return new Promise(callTx);
-}
-
-export async function transferRegion(
-  coretimeApi: ApiPromise,
-  sender: KeyringPair,
-  receiver: string,
-  regionId: RegionId
-): Promise<void> {
-  log(`Transferring a region to ${receiver}`);
-
-  const callTx = async (resolve: () => void) => {
-    const transfer = coretimeApi.tx.broker.transfer(regionId, receiver);
-    const unsub = await transfer.signAndSend(sender, (result: any) => {
-      if (result.status.isInBlock) {
-        unsub();
-        resolve();
       }
     });
   };
