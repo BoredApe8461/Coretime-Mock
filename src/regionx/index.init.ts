@@ -40,7 +40,12 @@ async function setupRelayAsset(api: ApiPromise) {
   const batchCall = api.tx.utility.batch(assetSetupCalls);
   return force(api, batchCall);
 }
-async function transferRelayTokensToRegionX(amount: bigint, receiver: string, relayApi: ApiPromise, signer: KeyringPair): Promise<void> {
+async function transferRelayTokensToRegionX(
+  amount: bigint,
+  receiver: string,
+  relayApi: ApiPromise,
+  signer: KeyringPair
+): Promise<void> {
   log("Teleporting relay tokens to RegionX");
   const receiverKeypair = new Keyring();
   receiverKeypair.addFromAddress(receiver);

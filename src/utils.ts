@@ -25,7 +25,7 @@ export async function setBalance(coretimeApi: ApiPromise, who: string, balance: 
 
 export async function submitExtrinsic(
   signer: KeyringPair,
-  call: SubmittableExtrinsic<'promise'>,
+  call: SubmittableExtrinsic<"promise">,
   options: Partial<SignerOptions>
 ): Promise<void> {
   try {
@@ -39,13 +39,13 @@ export async function submitExtrinsic(
           unsub.then();
           return resolve();
         } else if (result.isError) {
-          console.log('Transaction error');
+          console.log("Transaction error");
           unsub.then();
           return reject();
         }
       });
     });
-  }catch(e) {
+  } catch (e) {
     console.log(e);
   }
 }

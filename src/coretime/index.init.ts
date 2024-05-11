@@ -1,5 +1,5 @@
 import { ApiPromise, WsProvider } from "@polkadot/api";
-import { force, keyring, log, setBalance, submitExtrinsic } from "../utils";
+import { force, log, setBalance } from "../utils";
 import { KeyringPair } from "@polkadot/keyring/types";
 import { RegionId, voidMask } from "coretime-utils";
 import * as consts from "../consts";
