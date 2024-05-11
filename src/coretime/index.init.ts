@@ -1,7 +1,7 @@
 import { ApiPromise, WsProvider } from "@polkadot/api";
 import { force, keyring, log, setBalance } from "../utils";
 import { KeyringPair } from "@polkadot/keyring/types";
-import { CoreMask, RegionId } from "coretime-utils";
+import { RegionId, voidMask } from "coretime-utils";
 import * as consts from "../consts";
 
 export async function coretimeInit(coretimeEndpoint: string, coretimeAccount: string) {
@@ -95,5 +95,5 @@ async function getRegionId(coretimeApi: ApiPromise): Promise<RegionId> {
     }
   }
 
-  return { begin: 0, core: 0, mask: CoreMask.voidMask() };
+  return { begin: 0, core: 0, mask: voidMask() };
 }
