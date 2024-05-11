@@ -2,7 +2,7 @@
 # Simulated Coretime Environment
 
 
-The primary purpose of this repository is to provide all the necessary components for testing the [RegionX contracts](https://github.com/RegionX-Labs/RegionX), as well as the [RegionX CoreHub UI](https://github.com/RegionX-Labs/CoreHub).
+The primary purpose of this repository is to provide all the necessary components for testing the [RegionX-Node](https://github.com/RegionX-Labs/RegionX-Node), as well as the [RegionX CoreHub UI](https://github.com/RegionX-Labs/CoreHub).
 
 ## Topology
 
