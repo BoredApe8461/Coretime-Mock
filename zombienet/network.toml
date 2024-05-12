@@ -16,20 +16,9 @@ default_command = "./bin/polkadot"
   validator = true
   extra_args = [ "-lparachain=debug" ]
 
-  [[relaychain.nodes]]
-  name = "charlie"
-  validator = true
-  extra_args = [ "-lparachain=debug" ]
-
-  [[relaychain.nodes]]
-  name = "dave"
-  validator = true
-  extra_args = [ "-lparachain=debug" ]
-
 [[parachains]]
 id = 1005
-add_to_genesis = true
-cumulus_based = true
+add_to_genesis = false
 chain = "coretime-rococo-local"
 
   [[parachains.collators]]
@@ -46,23 +35,10 @@ chain = "coretime-rococo-local"
 
 [[parachains]]
 id = 2000
-add_to_genesis = true
-cumulus_based = true
-chain = "shibuya-dev"
+addToGenesis = false
 
-  [[parachains.collators]]
-  name = "astar-collator01"
-  command = "./bin/astar-collator"
+  [parachains.collator]
+  name = "regionx-collator01"
+  command = "./bin/regionx-node"
   ws_port = 9920
-  args = ["--log=xcm=trace"]
-
-  [[parachains.collators]]
-  name = "astar-collator02"
-  command = "./bin/astar-collator"
-  ws_port = 9921
-  args = ["--log=xcm=trace"]
-
-[types.Header]
-number = "u64"
-parent_hash = "Hash"
-post_state = "Hash"
+  args = [ "--log=xcm=trace,regions=trace" ]

@@ -1,17 +1,6 @@
 #!/bin/bash
 
-start_full="-p native spawn ./zombienet/full_network.toml"
-start_minimal="-p native spawn ./zombienet/minimal_network.toml"
-
-# Check the mode and set the appropriate arguments
-if [ "$1" == "full" ]; then
-    zombienet_args=$start_full
-elif [ "$1" == "minimal" ]; then
-    zombienet_args=$start_minimal
-else
-    echo "Invalid mode. Please specify 'full' or 'minimal'."
-    exit 1
-fi
+zombienet_args="-p native spawn ./zombienet/network.toml"
 
 if which zombienet-macos &> /dev/null; then
     zombienet-macos $zombienet_args

@@ -3,17 +3,14 @@ import { program } from "commander";
 import process from "process";
 import { relayInit } from "./relay/index.init";
 import { coretimeInit } from "./coretime/index.init";
-import { contractsInit } from "./contracts/index.init";
-import { normalizePath } from "./utils";
+import { regionxInit } from "./regionx/index.init";
 
 program
   .option("--relayInit")
   .option("--coretimeInit")
-  .option("--contractsInit")
-  .option("--contractsPath <string>")
-  .option("--contractsAccount <string>")
+  .option("--regionxInit")
   .option("--coretimeAccount <string>")
-  .option("--mintXcRegions");
+  .option("--regionxAccount <string>");
 
 program.parse(process.argv);
 
@@ -22,7 +19,7 @@ const CONTRACTS_PARA_ID = 2000;
 
 const ROCOCO_ENDPOINT = "ws://127.0.0.1:9900";
 const CORETIME_ENDPOINT = "ws://127.0.0.1:9910";
-const CONTRACTS_ENDPOINT = "ws://127.0.0.1:9920";
+const REGIONX_ENDPOINT = "ws://127.0.0.1:9920";
 
 async function init() {
   await cryptoWaitReady();
@@ -35,17 +32,8 @@ async function init() {
     await coretimeInit(CORETIME_ENDPOINT, program.opts().coretimeAccount || "");
   }
 
-  if (program.opts().contractsInit) {
-    if (!program.opts().contractsPath) {
-      throw new Error("--contractsPath must be specified");
-    }
-    const contractsPath = normalizePath(program.opts().contractsPath);
-    await contractsInit(
-      CONTRACTS_ENDPOINT,
-      program.opts().contractsAccount || "",
-      contractsPath,
-      program.opts().mintXcRegions
-    );
+  if (program.opts().regionxInit) {
+    await regionxInit(ROCOCO_ENDPOINT, REGIONX_ENDPOINT, program.opts().regionxAccount || "");
   }
 }
 

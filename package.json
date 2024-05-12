@@ -5,11 +5,9 @@
   "main": "index.js",
   "scripts": {
     "chopsticks": "npx @acala-network/chopsticks@latest -c ./configs/coretime-rococo.yml",
-    "zombienet:full": "./scripts/run_zombienet.sh full",
+    "zombienet": "./scripts/run_zombienet.sh full",
     "chopsticks-init": "npx ts-node src/chopsticks.init.ts",
-    "zombienet-init": "npx ts-node src/zombienet.init.ts",
-    "zombienet-init:full": "npx ts-node src/zombienet.init.ts --fullNetwork",
-    "zombienet-init:local": "npx ts-node src/zombienet.init.ts --local",
+    "init": "npx ts-node src/zombienet.init.ts",
     "prettier": "prettier --write src/",
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix"
@@ -19,13 +17,11 @@
   "license": "ISC",
   "dependencies": {
     "@acala-network/chopsticks": "0.9.4",
-    "@polkadot/api": "^10.11.1",
-    "@polkadot/api-contract": "^10.11.2",
+    "@polkadot/api": "^11.0.3",
     "@polkadot/keyring": "^12.6.2",
     "@polkadot/util-crypto": "^12.6.2",
-    "bn.js": "^5.2.1",
     "commander": "^11.1.0",
-    "coretime-utils": "^0.2.3",
+    "coretime-utils": "^0.3.2",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {

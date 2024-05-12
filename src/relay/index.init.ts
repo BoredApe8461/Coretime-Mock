@@ -1,10 +1,11 @@
 import { ApiPromise, WsProvider } from "@polkadot/api";
-import { keyring, log } from "../utils";
+import { force, keyring, log, submitExtrinsic } from "../utils";
 
 export async function relayInit(relayEndpoint: string, coretimeParaId: number, contractsParaId: number) {
   const relayWsProvider = new WsProvider(relayEndpoint);
   const relayApi = await ApiPromise.create({ provider: relayWsProvider });
 
+  await forceSafeXCMVersion(relayApi);
   await openHrmpChannel(relayApi, coretimeParaId, contractsParaId);
   await openHrmpChannel(relayApi, contractsParaId, coretimeParaId);
 }
@@ -24,14 +25,12 @@ async function openHrmpChannel(relayApi: ApiPromise, sender: number, recipient: 
   const openHrmp = relayApi.tx.parasSudoWrapper.sudoEstablishHrmpChannel(...newHrmpChannel);
   const sudoCall = relayApi.tx.sudo.sudo(openHrmp);
 
-  const callTx = async (resolve: () => void) => {
-    const unsub = await sudoCall.signAndSend(alice, (result: any) => {
-      if (result.status.isInBlock) {
-        unsub();
-        resolve();
-      }
-    });
-  };
+  return submitExtrinsic(alice, sudoCall, {});
+}
 
-  return new Promise(callTx);
+async function forceSafeXCMVersion(relayApi: ApiPromise): Promise<void> {
+  log(`Setting the safe XCM version to V3`);
+
+  const setVersionCall = relayApi.tx.xcmPallet.forceDefaultXcmVersion([3]);
+  return force(relayApi, setVersionCall);
 }
