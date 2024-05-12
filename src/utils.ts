@@ -50,7 +50,7 @@ export async function submitExtrinsic(
   }
 }
 
-export async function force(api: ApiPromise, call: any): Promise<void> {
+export async function force(api: ApiPromise, call: SubmittableExtrinsic<"promise">): Promise<void> {
   const sudoCall = api.tx.sudo.sudo(call);
 
   const alice = keyring.addFromUri("//Alice");

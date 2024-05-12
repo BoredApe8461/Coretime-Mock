@@ -1,7 +1,5 @@
 import { ApiPromise, WsProvider } from "@polkadot/api";
 import { force, log, setBalance } from "../utils";
-import { KeyringPair } from "@polkadot/keyring/types";
-import { RegionId, voidMask } from "coretime-utils";
 import * as consts from "../consts";
 
 export async function coretimeInit(coretimeEndpoint: string, coretimeAccount: string) {
@@ -36,36 +34,4 @@ async function forceSafeXCMVersion(coretimeApi: ApiPromise): Promise<void> {
 
   const setVersionCall = coretimeApi.tx.polkadotXcm.forceDefaultXcmVersion([3]);
   return force(coretimeApi, setVersionCall);
-}
-
-export async function purchaseRegion(coretimeApi: ApiPromise, buyer: KeyringPair): Promise<RegionId> {
-  log(`Purchasing a region.`);
-
-  const callTx = async (resolve: (regionId: RegionId) => void) => {
-    const purchase = coretimeApi.tx.broker.purchase(consts.INITIAL_PRICE * 2);
-    const unsub = await purchase.signAndSend(buyer, async (result: any) => {
-      if (result.status.isInBlock) {
-        const regionId = await getRegionId(coretimeApi);
-        unsub();
-        resolve(regionId);
-      }
-    });
-  };
-
-  return new Promise(callTx);
-}
-
-async function getRegionId(coretimeApi: ApiPromise): Promise<RegionId> {
-  log("Getting regionId");
-  const events: any = await coretimeApi.query.system.events();
-
-  for (const record of events) {
-    const { event } = record;
-    if (event.section === "broker" && event.method === "Purchased") {
-      log("Found RegionId: " + event.data[1].toString());
-      return event.data[1];
-    }
-  }
-
-  return { begin: 0, core: 0, mask: voidMask() };
 }
