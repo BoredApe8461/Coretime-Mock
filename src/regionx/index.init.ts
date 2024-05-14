@@ -19,6 +19,14 @@ export async function regionxInit(relayEndpoint: string, regionxEndpoint: string
     await force(regionxApi, giveBalanceCall);
     await transferRelayTokensToRegionX(100n * 10n ** 12n, regionxAccount, relayApi, alice);
   }
+
+  await ismpAddParachain(regionxApi);
+}
+
+async function ismpAddParachain(api: ApiPromise) {
+  log("Adding coretime chain to ismp para list");
+  const addParaCall = api.tx.ismpParachain.addParachain([1005]);
+  return force(api, addParaCall);
 }
 
 async function setupRelayAsset(api: ApiPromise) {
