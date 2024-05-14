@@ -41,7 +41,7 @@ export async function submitExtrinsic(
         } else if (result.isError) {
           console.log("Transaction error");
           unsub.then();
-          return reject();
+          return resolve();
         }
       });
     });

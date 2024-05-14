@@ -41,4 +41,4 @@ addToGenesis = false
   name = "regionx-collator01"
   command = "./bin/regionx-node"
   ws_port = 9920
-  args = [ "--log=xcm=trace,regions=trace,ismp=trace" ]
+  args = [ "--enable-offchain-indexing true --log=xcm=trace,regions=trace,ismp=trace" ]
