@@ -29,7 +29,7 @@ export async function submitExtrinsic(
   options: Partial<SignerOptions>
 ): Promise<void> {
   try {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, _reject) => {
       const unsub = call.signAndSend(signer, options, (result) => {
         console.log(`Current status is ${result.status}`);
         if (result.status.isInBlock) {
@@ -41,7 +41,7 @@ export async function submitExtrinsic(
         } else if (result.isError) {
           console.log("Transaction error");
           unsub.then();
-          return reject();
+          return resolve();
         }
       });
     });
