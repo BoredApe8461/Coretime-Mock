@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "chopsticks": "npx @acala-network/chopsticks@latest -c ./configs/coretime-rococo.yml",
+    "chopsticks-coretime": "npx @acala-network/chopsticks@latest -c ./configs/coretime-rococo.yml",
+    "chopsticks-regionx": "npx @acala-network/chopsticks@latest -c ./configs/regionx.yml",
     "zombienet": "./scripts/run_zombienet.sh full",
-    "chopsticks-init": "npx ts-node src/chopsticks.init.ts",
     "init": "npx ts-node src/zombienet.init.ts",
     "prettier": "prettier --write src/",
     "lint": "eslint src --ext .ts,.tsx",

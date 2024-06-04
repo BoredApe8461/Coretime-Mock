@@ -78,10 +78,8 @@ cd Coretime-Mock
 npm i
 
 # This will run a parallel copy of the Coretime chain
-npm run chopsticks
+npm run chopsticks-coretime
 
-# In a new terminal:
-
-# This will add some mock data to the Coretime chain
-npm run chopsticks-init
+# It is also possible to run a parallel copy of the RegionX chain (assuming it is available on port 9920).
+npm run chopsticks-regionx
 ```

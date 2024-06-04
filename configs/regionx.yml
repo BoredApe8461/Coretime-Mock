@@ -1,0 +1,66 @@
+endpoint: ws://127.0.0.1:9920
+mock-signature-host: true
+db: ./db.sqlite
+
+import-storage:
+  System:
+    Account:
+      - - - 5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY
+        - providers: 1
+          data:
+            free: 1000000000000000
+  Regions:
+    Regions:
+      [
+        [
+          [{ core: 0, begin: 8, mask: "0xffffffffffffffffffff" }],
+          {
+            owner: 5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY,
+            locked: true,
+            record:
+              {
+                Available:
+                  {
+                    end: 100,
+                    owner: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+                    paid: null,
+                  },
+              },
+          },
+        ],
+        [
+          [{ core: 1, begin: 8, mask: "0xffffffffffffffffffff" }],
+          {
+            owner: 5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY,
+            locked: true,
+            record:
+              {
+                Available:
+                  {
+                    end: 100,
+                    owner: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+                    paid: null,
+                  },
+              },
+          },
+        ],
+      ]
+  Market:
+    Listings: [
+        [
+          [{ core: 0, begin: 8, mask: "0xffffffffffffffffffff" }],
+          {
+            seller: 5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY,
+            timeslice_price: 100000000000, # 0.1 ROC / timeslice
+            sale_recipient: 5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY,
+          },
+        ],
+        [
+          [{ core: 1, begin: 8, mask: "0xffffffffffffffffffff" }],
+          {
+            seller: 5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY,
+            timeslice_price: 1500000000000, # 0.15 ROC / timeslice
+            sale_recipient: 5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY,
+          },
+        ],
+      ]
