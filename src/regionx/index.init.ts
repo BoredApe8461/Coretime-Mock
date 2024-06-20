@@ -13,10 +13,13 @@ export async function regionxInit(relayEndpoint: string, regionxEndpoint: string
   const relayApi = await ApiPromise.create({ provider: relayWsProvider });
 
   await setupRelayAsset(regionxApi);
+  const giveRcTokensCall = regionxApi.tx.tokens.setBalance(alice.address, RELAY_ASSET_ID, 10n ** 18n, 0);
+  await force(regionxApi, giveRcTokensCall);
 
   if (regionxAccount) {
     const giveBalanceCall = regionxApi.tx.balances.forceSetBalance(regionxAccount, 10n ** 18n);
-    await force(regionxApi, giveBalanceCall);
+    const giveRcTokensCall = regionxApi.tx.tokens.setBalance(regionxAccount, RELAY_ASSET_ID, 10n ** 18n, 0);
+    await force(regionxApi, regionxApi.tx.utility.batch([giveBalanceCall, giveRcTokensCall]));
     await transferRelayTokensToRegionX(100n * 10n ** 12n, regionxAccount, relayApi, alice);
   }
 
