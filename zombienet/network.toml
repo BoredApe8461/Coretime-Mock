@@ -34,7 +34,7 @@ chain = "coretime-rococo-local"
   args = ["--log=xcm=trace"]
 
 [[parachains]]
-id = 2000
+id = 4479
 addToGenesis = false
 
   [parachains.collator]

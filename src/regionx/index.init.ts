@@ -64,7 +64,7 @@ async function transferRelayTokensToRegionX(
   const feeAssetItem = 0;
   const weightLimit = "Unlimited";
   const reserveTransfer = relayApi.tx.xcmPallet.limitedReserveTransferAssets(
-    { V3: { parents: 0, interior: { X1: { Parachain: 2000 } } } }, //dest
+    { V3: { parents: 0, interior: { X1: { Parachain: 4479 } } } }, //dest
     {
       V3: {
         parents: 0,

@@ -15,7 +15,7 @@ program
 program.parse(process.argv);
 
 const CORETIME_PARA_ID = 1005;
-const CONTRACTS_PARA_ID = 2000;
+const CONTRACTS_PARA_ID = 4479;
 
 const ROCOCO_ENDPOINT = "ws://127.0.0.1:9900";
 const CORETIME_ENDPOINT = "ws://127.0.0.1:9910";
